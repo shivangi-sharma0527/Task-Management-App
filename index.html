@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow — Task Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="brand"><span class="brand-mark">✓</span><span>TaskFlow</span></div>
+      <div class="auth-copy">
+        <p class="eyebrow">PRODUCTIVITY WORKSPACE</p>
+        <h1>Plan better.<br><span>Finish faster.</span></h1>
+        <p>Organize tasks, track deadlines and stay on top of your work from one clean dashboard.</p>
+      </div>
+      <form id="loginForm">
+        <label>Email address</label>
+        <input id="email" type="email" placeholder="you@example.com" required>
+        <label>Password</label>
+        <div class="password-wrap">
+          <input id="password" type="password" placeholder="Enter your password" required minlength="4">
+          <button type="button" id="togglePassword">Show</button>
+        </div>
+        <button class="primary-btn full" type="submit">Sign in <span>→</span></button>
+      </form>
+      <p class="switch-auth">New to TaskFlow? <button type="button" id="showSignup">Create an account</button></p>      <p class="demo-note">Demo app — your account details are stored locally in this browser.</p>
+    </div>
+
+      <div id="signupPanel" class="signup-panel hidden">
+        <div class="auth-copy">
+          <p class="eyebrow">GET STARTED</p>
+          <h1>Create your<br><span>TaskFlow account.</span></h1>
+          <p>Set up your workspace and start organizing your tasks in minutes.</p>
+        </div>
+        <form id="signupForm">
+          <label>Full name</label>
+          <input id="signupName" type="text" placeholder="Your full name" required maxlength="60">
+
+          <label>Email address</label>
+          <input id="signupEmail" type="email" placeholder="you@example.com" required>
+
+          <label>Password</label>
+          <div class="password-wrap">
+            <input id="signupPassword" type="password" placeholder="Create a password" required minlength="4">
+            <button type="button" id="toggleSignupPassword">Show</button>
+          </div>
+
+          <label>Confirm password</label>
+          <div class="password-wrap">
+            <input id="signupConfirm" type="password" placeholder="Confirm your password" required minlength="4">
+            <button type="button" id="toggleConfirmPassword">Show</button>
+          </div>
+
+          <label class="terms-row">
+            <input id="signupTerms" type="checkbox" required>
+            <span>I agree to the Terms of Service and Privacy Policy.</span>
+          </label>
+
+          <button class="primary-btn full" type="submit">Create account <span>→</span></button>
+        </form>
+        <p class="switch-auth">Already have an account? <button type="button" id="showLogin">Sign in</button></p>
+      </div>
+    <div class="auth-visual">
+      <div class="orb orb-1"></div><div class="orb orb-2"></div>
+      <div class="visual-content">
+        <span class="floating-tag">✓ 12 tasks completed</span>
+        <div class="preview-card">
+          <div class="preview-top"><span>My Workspace</span><span>•••</span></div>
+          <div class="mini-progress"><i></i></div>
+          <div class="preview-row"><b>Website redesign</b><small>Today</small></div>
+          <div class="preview-row"><b>Client presentation</b><small>Tomorrow</small></div>
+          <div class="preview-row"><b>Project documentation</b><small>Fri</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="appScreen" class="app-screen hidden">
+    <aside class="sidebar">
+      <div class="brand side-brand"><span class="brand-mark">✓</span><span>TaskFlow</span></div>
+      <nav>
+        <p class="nav-label">WORKSPACE</p>
+        <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-view="tasks"><span>✓</span> All Tasks <b id="allCount">0</b></button>
+        <button class="nav-item" data-view="today"><span>◷</span> Today</button>
+        <button class="nav-item" data-view="completed"><span>✓</span> Completed</button>
+        <p class="nav-label">MANAGE</p>
+        <button class="nav-item" id="openAddFromNav"><span>＋</span> Add New Task</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tip"><strong>Stay productive</strong><span>Small steps every day lead to big results.</span></div>
+        <button id="logoutBtn" class="logout">↪ &nbsp; Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p id="dateLabel" class="muted"></p>
+          <h2 id="pageTitle">Good morning 👋</h2>
+        </div>
+        <div class="top-actions">
+          <div class="search"><span>⌕</span><input id="searchInput" placeholder="Search tasks..."></div>
+          <button class="icon-btn" id="themeBtn" title="Toggle theme">☾</button>
+          <button class="avatar" id="profileBtn">D</button>
+        </div>
+      </header>
+
+      <div id="dashboardView">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">YOUR PRODUCTIVITY</p>
+            <h1>Make today <span>count.</span></h1>
+            <p>Keep your priorities clear and move your most important work forward.</p>
+          </div>
+          <button class="primary-btn" id="addTaskBtn">＋ Add new task</button>
+        </section>
+
+        <section class="stats-grid">
+          <article class="stat-card"><div class="stat-icon blue">✓</div><div><span>Completed</span><strong id="completedStat">0</strong></div><small id="completedRate">0% of total</small></article>
+          <article class="stat-card"><div class="stat-icon purple">◷</div><div><span>In progress</span><strong id="progressStat">0</strong></div><small>Active tasks</small></article>
+          <article class="stat-card"><div class="stat-icon orange">!</div><div><span>Due today</span><strong id="todayStat">0</strong></div><small>Needs attention</small></article>
+          <article class="stat-card"><div class="stat-icon green">★</div><div><span>Productivity</span><strong id="productivityStat">0%</strong></div><small>Completion rate</small></article>
+        </section>
+
+        <section class="content-grid">
+          <div class="panel task-panel">
+            <div class="panel-head"><div><h3>My tasks</h3><p>Recent tasks across your workspace</p></div><button class="text-btn" data-view="tasks">View all →</button></div>
+            <div id="taskList"></div>
+            <div id="emptyState" class="empty hidden"><div>✓</div><h3>No tasks found</h3><p>Create a task or change your filters.</p></div>
+          </div>
+          <div class="panel progress-panel">
+            <div class="panel-head"><div><h3>Weekly progress</h3><p>Your completion overview</p></div></div>
+            <div class="donut-wrap"><div class="donut" id="donut"><div><strong id="donutValue">0%</strong><span>completed</span></div></div></div>
+            <div class="legend"><span><i class="dot done"></i>Completed <b id="legendDone">0</b></span><span><i class="dot pending"></i>Remaining <b id="legendPending">0</b></span></div>
+          </div>
+        </section>
+      </div>
+
+      <div id="tasksView" class="hidden">
+        <section class="page-section">
+          <div class="section-heading"><div><p class="eyebrow">WORKSPACE</p><h1>All tasks</h1></div><button class="primary-btn" id="addTaskBtn2">＋ Add task</button></div>
+          <div class="filters">
+            <button class="filter active" data-filter="all">All</button><button class="filter" data-filter="pending">Pending</button><button class="filter" data-filter="in-progress">In progress</button><button class="filter" data-filter="completed">Completed</button>
+            <select id="priorityFilter"><option value="all">All priorities</option><option value="high">High priority</option><option value="medium">Medium priority</option><option value="low">Low priority</option></select>
+          </div>
+          <div class="panel"><div id="fullTaskList"></div></div>
+        </section>
+      </div>
+    </main>
+  </section>
+
+  <div id="taskModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-head"><div><p class="eyebrow">TASK DETAILS</p><h2 id="modalTitle">Create a new task</h2></div><button class="close-btn" id="closeModal">×</button></div>
+      <form id="taskForm">
+        <input type="hidden" id="taskId">
+        <label>Task title</label><input id="taskTitle" required maxlength="80" placeholder="e.g. Prepare project presentation">
+        <label>Description <span>Optional</span></label><textarea id="taskDescription" rows="3" placeholder="Add some context..."></textarea>
+        <div class="form-grid">
+          <div><label>Due date</label><input id="taskDate" type="date" required></div>
+          <div><label>Priority</label><select id="taskPriority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></div>
+        </div>
+        <label>Status</label><select id="taskStatus"><option value="pending">Pending</option><option value="in-progress">In progress</option><option value="completed">Completed</option></select>
+        <div class="modal-actions"><button type="button" class="secondary-btn" id="cancelModal">Cancel</button><button class="primary-btn" type="submit">Save task</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
